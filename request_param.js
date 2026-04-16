@@ -90,7 +90,7 @@ const getParam = (config, pageToken, maxPageSize) => {
   const param = params[config.action];
   param.pageNum =
     pageToken === undefined || pageToken === null || pageToken === '' ? 1 : parseInt(pageToken.split('-')[1], 10);
-  param.pageSize = maxPageSize;
+  param.pageSize = maxPageSize >= 500 ? 500 : maxPageSize;
   if (config.action === 'queryWarehouseStorage') {
     param['warehouseID'] = config.warehouseID;
   }

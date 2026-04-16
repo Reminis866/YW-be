@@ -85,16 +85,16 @@ function queryWarehouseStorage(param, pageToken) {
   return axios
     .post(baseUrl, param)
     .then((res) => {
-      console.log('res', res.data);
+      console.log(res.data);
 
       if (res.data.code === 0) {
         const data = res.data.data;
         const hasNextPage = data.currentPageNum < Math.ceil(data.total / data.currentPageSize);
         const transformed = data.list.map((item) => {
-          const { merchandiseSerno, ...rest } = item;
+          const stringifiedItem = Object.fromEntries(Object.entries(item).map(([key, value]) => [key, String(value)]));
           return {
-            primaryID: merchandiseSerno,
-            data: rest,
+            primaryID: stringifiedItem.merchandiseSerno,
+            data: stringifiedItem,
           };
         });
         return {
@@ -121,7 +121,7 @@ const getTableRecords = (body) => {
   const datasourceConfig = JSON.parse(params.datasourceConfig);
   console.log('params', params);
   console.log('datasourceConfig', datasourceConfig);
-  const param = getParam(datasourceConfig);
+  const param = getParam(datasourceConfig, params.pageToken, params.maxPageSize);
   switch (datasourceConfig.action) {
     case 'queryWarehouseStorage':
       return queryWarehouseStorage(param, datasourceConfig.pageToken);
