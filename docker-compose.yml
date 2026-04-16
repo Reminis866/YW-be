@@ -1,0 +1,19 @@
+services:
+  app:
+    image: node:22-alpine
+    container_name: node_app
+    working_dir: /app
+    volumes:
+      - .:/app
+      - node_modules_volume:/app/node_modules   # 持久化依赖
+    ports:
+      - "6000:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+    # 关键修改：使用 npm install 而非 npm ci
+    command: sh -c "npm install --only=production && node index.js"
+    restart: unless-stopped
+
+volumes:
+  node_modules_volume:

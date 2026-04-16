@@ -1,6 +1,3 @@
-const dns = require('dns');
-dns.setDefaultResultOrder('ipv4first');
-
 const express = require('express');
 const path = require('path');
 const fs = require('fs');
@@ -59,9 +56,6 @@ app.post('/api/records', async (req, res) => {
   res.status(200).json(result);
 });
 
-const server = app.listen(2000, () => {
+app.listen(3000, () => {
   console.log('Express server initialized');
 });
-
-// server.keepAliveTimeout = 60 * 1000; // 60秒，小于Caddy的90秒
-// server.headersTimeout = 65 * 1000;
