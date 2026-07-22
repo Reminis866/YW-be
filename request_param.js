@@ -18,10 +18,17 @@ const params = {
   queryWarehouseStorage: {
     isActive: 'Y',
   },
+  other: {
+    isActive: 'Y',
+  },
 };
 const actions = {
   queryWarehouseStorage: {
     action: 'queryWarehouseStorage',
+    format: 'json',
+  },
+  other: {
+    action: 'other',
     format: 'json',
   },
 };
@@ -88,6 +95,8 @@ const getParam = (config, pageToken, maxPageSize) => {
   const app_key = config.account.sellerAccount;
   const action = actions[config.action];
   const param = params[config.action];
+  console.log('param', param);
+
   param.pageNum =
     pageToken === undefined || pageToken === null || pageToken === '' ? 1 : parseInt(pageToken.split('-')[1], 10);
   param.pageSize = maxPageSize >= 500 ? 500 : maxPageSize;
